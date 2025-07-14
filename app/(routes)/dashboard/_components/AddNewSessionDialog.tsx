@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogClose,
@@ -18,13 +18,30 @@ import DoctorAgentCard, { doctorAgent } from "./DoctorAgentCard";
 import { CustomBtn } from "./CustomBtn";
 import SuggestedDoctorCard from "./SuggestedDoctorCard";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@clerk/nextjs";
+import { SessionDetail } from "../medical-agent/[sessionId]/page";
 
 function AddNewSessionDialog() {
   const [note, setNote] = useState<string>();
   const [loading, setLoading] = useState(false);
   const [suggestedDoctors, setSuggestedDoctors] = useState<doctorAgent[]>();
   const [selectedDoctor, setSelectedDoctor] = useState<doctorAgent>();
-  const router=useRouter()
+  const router = useRouter();
+  const [historyList, setHistoryList] = useState<SessionDetail[]>([]);
+
+  const { has } = useAuth();
+
+  const paidUser = has && has({ plan: "pro" });
+
+  useEffect(() => {
+    GetHistoryList();
+  }, []);
+
+  const GetHistoryList = async () => {
+    const result = await axios.get("/api/session-chat?sessionId=all");
+    console.log(result.data);
+    setHistoryList(result.data);
+  };
 
   const onClickNext = async () => {
     setLoading(true);
@@ -47,20 +64,23 @@ function AddNewSessionDialog() {
 
     if (result.data?.sessionId) {
       console.log(result.data.sessionId);
-      router.push('/dashboard/medical-agent/'+result.data.sessionId)
+      router.push("/dashboard/medical-agent/" + result.data.sessionId);
     }
 
     setLoading(false);
   };
 
   console.log(suggestedDoctors);
-  
-
 
   return (
     <Dialog>
       <DialogTrigger className="mt-3">
-        <CustomBtn text="Start Consultation" />
+        <Button
+          className="mt-3"
+          disabled={!paidUser && historyList?.length >= 1}
+        >
+          Start Consultation
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -100,13 +120,16 @@ function AddNewSessionDialog() {
           </DialogClose>
 
           {!suggestedDoctors ? (
-            <Button disabled={!note||loading} onClick={() => onClickNext()}>
+            <Button disabled={!note || loading} onClick={() => onClickNext()}>
               Next{" "}
               {loading ? <Loader2 className="animate-spin" /> : <ArrowRight />}
             </Button>
           ) : (
-            <Button disabled={loading || !selectedDoctor} onClick={() => onStartConsultation()}>
-              Start Consultation 
+            <Button
+              disabled={loading || !selectedDoctor}
+              onClick={() => onStartConsultation()}
+            >
+              Start Consultation
               {loading ? <Loader2 className="animate-spin" /> : <ArrowRight />}
             </Button>
           )}

@@ -10,18 +10,15 @@ import { SessionDetail } from "../medical-agent/[sessionId]/page";
 function HistoryList() {
   const [historyList, setHistoryList] = useState<SessionDetail[]>([]);
 
+  useEffect(() => {
+    GetHistoryList();
+  }, []);
 
-  useEffect(()=>{
-    GetHistoryList()
-  },[])
-
-  const GetHistoryList = async ()=>{
-    const result = await axios.get('/api/session-chat?sessionId=all')
+  const GetHistoryList = async () => {
+    const result = await axios.get("/api/session-chat?sessionId=all");
     console.log(result.data);
-    setHistoryList(result.data)
-    
-  }
-
+    setHistoryList(result.data);
+  };
 
   return (
     <div className="mt-10">
@@ -39,7 +36,7 @@ function HistoryList() {
         </div>
       ) : (
         <div>
-           <HistoryTable historyList={historyList}/>
+          <HistoryTable historyList={historyList} />
         </div>
       )}
     </div>
