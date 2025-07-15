@@ -19,11 +19,7 @@ const menuOptions = [
         name:'Pricing',
         path:'/dashboard/billing'
     },
-    {
-        id:4,
-        name:'Profile',
-        path:'/profile'
-    },
+   
 ]
 
 
@@ -31,8 +27,8 @@ const menuOptions = [
 function AppHeader() {
   return (
     <div className='flex items-center justify-between p-4 shadow px-10 md:px-20 lg:px-40'>
-        <Image src={'/logo.svg'} alt='logo' width={120} height={60} />
-        <div className='flex gap-12 items-center'>
+       <Link href={'/dashboard'}> <Image src={'/logo.png'} alt='logo' width={120} height={60} /></Link>
+        <div className='flex gap-20 items-center'>
             {menuOptions.map((option,index)=>(
                 <Link href={option.path} key={index} className="">
                     <h2 className='hover:font-bold cursor-pointer transition-all'>{option.name}</h2>
