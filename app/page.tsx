@@ -55,7 +55,7 @@ export default function HeroSectionOne() {
           }}
           className="relative z-10 mx-auto max-w-xl py-4 text-center text-lg font-normal text-neutral-600 dark:text-neutral-400"
         >
-          <TextGenerateEffect className="relative z-10 mx-auto max-w-xl py-4 text-center text-lg font-normal text-neutral-600 dark:text-neutral-400" words={'Provide 24/7 intelligent medical support using conversational AI. Triage symptoms, book appointments, and deliver empathetic care with voice-first automation.'}/>
+          <TextGenerateEffect className="relative z-10 mx-auto max-w-xl py-4 text-center text-lg font-normal text-neutral-600 dark:text-neutral-400" words={'Provide 24/7 intelligent medical support using conversational AI. Check symptoms, book appointments, and deliver empathetic care with voice-first automation.'}/>
         </motion.p>
         <Link href={"sign-in"}>
           <motion.div
