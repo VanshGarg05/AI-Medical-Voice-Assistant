@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const completion = await openai.chat.completions.create({
-      model: "tencent/hunyuan-a13b-instruct:free",
+      model: "gpt-4o-mini",
       messages: [
         {
           role: "system",
