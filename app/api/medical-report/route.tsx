@@ -4,11 +4,11 @@ import { SessionChatTable } from "@/config/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
-const ReportGenrationPrompt = `You are an AI Medical Voice Agent that just finished a voice conversation with a user. Based on doctor AI agent info and conversation between AI medical agent and user, generate a structured report with the following fields:
+const ReportGenrationPrompt = `You are an AI Medical Voice Agent that just finished a voice conversation with a user. Based on the provided user name, doctor AI agent info and conversation between AI medical agent and user, generate a structured report with the following fields:
 
 1. sessionId: a unique session identifier
 2. agent: the medical specialist name (e.g., "General Physician AI")
-3. user: name of the patient or "Anonymous" if not provided
+3. user: use the provided user name in the input. This is important for patient identification
 4. timestamp: current date and time in ISO format
 5. chiefComplaint: one-sentence summary of the main health concern
 6. summary: a 2-3 sentence summary of the conversation, symptoms, and recommendations
@@ -40,11 +40,13 @@ export async function POST(req: NextRequest) {
   const { sessionId, sessionDetail, messages } = await req.json();
 
   try {
-    const UserInput =
-      "AI Doctor Agent info:" +
-      JSON.stringify(sessionDetail) +
-      ",Conversation:" +
-      JSON.stringify(messages);
+    // Extract user info from sessionDetail which contains the authenticated user details
+    const userInfo = sessionDetail?.userDetail || {};
+    const userName = userInfo?.name || "Anonymous";
+    
+    const UserInput = `AI Doctor Agent info: ${JSON.stringify(sessionDetail)}, 
+    User Name: ${userName},
+    Conversation: ${JSON.stringify(messages)}`;
 
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",

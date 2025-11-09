@@ -17,6 +17,7 @@ export type SessionDetail = {
   report: JSON;
   selectedDoctor: doctorAgent;
   createdOn: string;
+  userDetail?: any;
 };
 
 type messages = {
@@ -181,6 +182,7 @@ function MedicalVoiceAgent() {
       messages: messages,
       sessionDetail: sessionDetail,
       sessionId,
+      userDetail: sessionDetail?.userDetail // Pass user details from session
     });
     console.log(result.data);
     return result.data;
