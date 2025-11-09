@@ -38,7 +38,6 @@ function AddNewSessionDialog() {
 
   const GetHistoryList = async () => {
     const result = await axios.get("/api/session-chat?sessionId=all");
-    console.log(result.data);
     setHistoryList(result.data);
   };
 
@@ -69,11 +68,11 @@ function AddNewSessionDialog() {
     setLoading(false);
   };
 
-  console.log(suggestedDoctors);
+  
 
   return (
     <Dialog>
-      <DialogTrigger className="mt-3">
+      <DialogTrigger asChild>
         <Button
           className="mt-3"
           disabled={!paidUser && historyList?.length >= 1}

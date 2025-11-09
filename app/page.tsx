@@ -42,7 +42,7 @@ export default function HeroSectionOne() {
               </motion.span>
             ))}
         </h1>
-        <motion.p
+        <motion.div
           initial={{
             opacity: 0,
           }}
@@ -56,7 +56,7 @@ export default function HeroSectionOne() {
           className="relative z-10 mx-auto max-w-xl py-4 text-center text-lg font-normal text-neutral-600 dark:text-neutral-400"
         >
           <TextGenerateEffect className="relative z-10 mx-auto max-w-xl py-4 text-center text-lg font-normal text-neutral-600 dark:text-neutral-400" words={'Provide 24/7 intelligent medical support using conversational AI. Check symptoms, book appointments, and deliver empathetic care with voice-first automation.'}/>
-        </motion.p>
+        </motion.div>
         <Link href={"sign-in"}>
           <motion.div
             initial={{
