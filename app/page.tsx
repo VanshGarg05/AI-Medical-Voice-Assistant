@@ -119,7 +119,7 @@ export default function HeroSectionOne() {
           </AuroraBackground>
         </motion.div>
       </div>
-      <FeatureBentoGrid />
+      {/* <FeatureBentoGrid /> */}
     </div>
   );
 }
